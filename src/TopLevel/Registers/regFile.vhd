@@ -19,7 +19,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 library work;
-use work.my_array.all;
+use work.MIPS_types.all;
 
 entity regFile is
   port(i_CLK         : in std_logic;

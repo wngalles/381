@@ -21,7 +21,7 @@ use IEEE.numeric_std.all;
 
 
 library work;
-use work.my_array.all;
+use work.MIPS_types.all;
 
 
 
