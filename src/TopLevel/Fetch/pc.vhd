@@ -5,7 +5,7 @@
 -------------------------------------------------------------------------
 
 
--- fetch.vhd
+-- pc.vhd
 -------------------------------------------------------------------------
 -- DESCRIPTION: This file contains an implementation of an N-bit wide 2:1
 -- mux using structural VHDL, generics, and generate statements.
@@ -20,11 +20,10 @@ use IEEE.std_logic_1164.all;
 
 entity fetch is
   port(i_CLK              : in std_logic;
-       i_Jump             : in std_logic;
-       i_Branch           : in std_logic;
-       i_Zero             : in std_logic;
-       i_Immediate        : in std_logic_vector(31 downto 0);
-       o_Instruction      : out std_logic_vector(31 downto 0));
+       i_RST              : in std_logic;
+       i_WE               : in std_logic;
+       i_PCin             : in std_logic_vector(31 downto 0);
+       o_PCout            : out std_logic_vector(31 downto 0));
 
 end fetch;
 
@@ -40,31 +39,37 @@ architecture structural of rippleAdder_N is
       
       end component;
 
-      component mux2t1_N is
-        generic(N);
-        port(i_S          : in std_logic;
-             i_D0         : in std_logic_vector(N-1 downto 0);
-             i_D1         : in std_logic_vector(N-1 downto 0);
-             o_O          : out std_logic_vector(N-1 downto 0));
+      component reg_N is
+        generic(N); 
+        port(i_CLK         : in std_logic;
+              i_RST        : in std_logic;
+              i_WE         : in std_logic;
+              i_D          : in std_logic_vector(N-1 downto 0);
+              o_Q          : out std_logic_vector(N-1 downto 0));
       
       end component;
 
       signal s_PC_ADD : std_logic_vector(31 downto 0);
-      signal s_PC_ADD : std_logic_vector(31 downto 0);
+      signal s_Four : std_logic_vector(31 downto 0) := 32x"4";
+      signal s_DC1 : std_logic;
+      signal s_DC2 : std_logic;
 
 begin
 
-  s_C(0) <= i_C; 
- 
-  G_NBit_Ripple: for i in 0 to N-1 generate
-    RIPPI: fullAdder port map(
-              i_C      => s_C(i),      
-              i_X     => i_X(i),  
-              i_Y     => i_Y(i),
-              o_S      => o_S(i),  
-              o_C      => s_C(i+1));  
-  end generate G_NBit_Ripple;
+  g_PCreg: reg_N
+  generic map(32)
+  port MAP(i_CLK            => i_CLK,
+           i_RST            => i_RST,
+           i_WE             => i_WE,
+           i_D              => i_PCin,
+           o_Q              => s_PC_ADD);
 
-  o_C <= s_C(N);
+  g_ADD4: reg_N
+  generic map(32)
+  port MAP(i_C              => s_DC1,
+           i_X              => s_PC_ADD,
+           i_Y              => s_Four,
+           o_S              => o_PCout,
+           o_C              => s_DC2);
   
 end structural;
