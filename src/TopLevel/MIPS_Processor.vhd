@@ -67,6 +67,22 @@ architecture structure of MIPS_Processor is
           q            : out std_logic_vector((DATA_WIDTH -1) downto 0));
     end component;
 
+  component control is
+    port(
+      instruction : in std_logic_vector(32-1 downto 0);
+
+      regDst     : out std_logic;
+      jump        : out std_logic;
+      branch      : out std_logic;
+      memRead     : out std_logic;
+      memToReg    : out std_logic;
+      aluOp       : out std_logic_vector(4-1 downto 0); -- Not exactly sure how this will map out, but the can be tbd
+      memWrite    : out std_logic;
+      aluSrc      : out std_logic;
+      regWrite    : out std_logic
+    );
+    end component;
+
   -- TODO: You may add any additional signals or components your implementation 
   --       requires below this comment
 
