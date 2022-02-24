@@ -1,0 +1,52 @@
+m255
+K4
+z2
+!s11e vcom 2021.2 2021.04, Apr 14 2021
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/wngalles/CprE 381/Attempt2/cpre381-toolflow/proj/test
+Pmips_types
+Z1 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z2 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 0
+Z3 w1645236818
+R0
+Z4 8../src/MIPS_types.vhd
+Z5 F../src/MIPS_types.vhd
+l0
+L15 1
+V>D26I1T0LI>1?cJ2z:za60
+!s100 l]RdK2V5IO4T?TYC=Tj4:3
+Z6 OL;C;2021.2;73
+33
+Z7 !s110 1645721536
+!i10b 1
+Z8 !s108 1645721535.000000
+Z9 !s90 -reportprogress|300|-2008|-work|work|../src/MIPS_types.vhd|
+!s107 ../src/MIPS_types.vhd|
+!i113 0
+Z10 o-2008 -work work
+Z11 tExplicit 1 CvgOpt 0
+Bbody
+DPx4 work 10 mips_types 0 22 >D26I1T0LI>1?cJ2z:za60
+R1
+R2
+!i122 0
+l0
+L31 1
+VFdk9@O0[idhag92enN]1i3
+!s100 ?mz9b2;ckIQj1mL>HRIKm1
+R6
+33
+R7
+!i10b 1
+R8
+R9
+Z12 !s107 ../src/MIPS_types.vhd|
+!i113 0
+R10
+R11
