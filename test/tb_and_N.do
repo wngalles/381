@@ -22,6 +22,6 @@ add wave -noupdate -label In_1 /tb_and_N/s_In1
 add wave -noupdate -label In_2 /tb_and_N/s_In2
 
 add wave -noupdate -divider {Outputs}
-add wave -noupdate -label PC_OUT /tb_and_N/s_Out2
+add wave -noupdate -label And_Out /tb_and_N/s_Out2
 
 run 500 

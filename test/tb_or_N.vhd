@@ -34,14 +34,14 @@ architecture behavior of tb_or_N is
   signal s_CLK : std_logic;
   signal s_In1          : std_logic_vector(31 downto 0) := 32x"0";
   signal s_In2          : std_logic_vector(31 downto 0) := 32x"0";
-  signal s_Out2         : std_logic_vector(31 downto 0);
+  signal s_Out         : std_logic_vector(31 downto 0);
 
 begin
 
   DUT: or_N 
   port map(i_In1        => s_In1,
            i_In2        => s_In2,
-           o_Out        => s_Out2);
+           o_Out        => s_Out);
 
   -- This process sets the clock value (low for gCLK_HPER, then high
   -- for gCLK_HPER). Absent a "wait" command, processes restart 
