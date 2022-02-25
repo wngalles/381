@@ -13,9 +13,12 @@ entity fetch is
   port(i_PCin             : in std_logic_vector(31 downto 0);
        i_Instruction      : in std_logic_vector(31 downto 0);
        i_Immediate        : in std_logic_vector(31 downto 0);
+       i_Register         : in std_logic_vector(31 downto 0);
        i_Jump             : in std_logic;
-       i_Branch           : in std_logic;
-       i_Zero             : in std_logic;
+       i_JumpRegister     : in std_logic;
+       i_BEQ              : in std_logic;
+       i_BNE              : in std_logic;
+       i_Equal            : in std_logic;
        o_PCout            : out std_logic_vector(31 downto 0));
 
 end fetch;
@@ -41,20 +44,13 @@ architecture structural of fetch is
   
   end component;
 
-  component andg2 is
-
-    port(i_A          : in std_logic;
-         i_B          : in std_logic;
-         o_F          : out std_logic);
-  
-  end component;
-
       signal s_InsIn        : std_logic_vector(27 downto 0);
       signal s_JumpAddress  : std_logic_vector(31 downto 0);
       signal s_Mux2Mux      : std_logic_vector(31 downto 0);
+      signal s_Jump2Jump    : std_logic_vector(31 downto 0);
 
       signal s_ImmShf       : std_logic_vector(31 downto 0);
-      signal s_ALU2Mux      : std_logic_vector(31 downto 0);
+      signal s_ADD2Mux      : std_logic_vector(31 downto 0);
 
       signal s_MuxCtl       : std_logic;
 
@@ -68,16 +64,20 @@ begin
     s_ImmShf        <= i_Immediate(29 downto 0) & '0' & '0';
 
 
-  g_AND: andg2
-  port MAP(i_A             => i_Branch,
-           i_B             => i_Zero,
-           o_F             => s_MuxCtl);
+
+  g_MUX0: mux2t1_N
+  generic map(1)
+  port MAP(i_S              => i_Equal,
+           i_D0             => i_BNE,
+           i_D1             => i_BEQ,
+           o_O              => s_MuxCtl);
+
 
   g_MUX1: mux2t1_N
   generic map(32)
   port MAP(i_S              => s_MuxCtl,
            i_D0             => i_PCin,
-           i_D1             => s_ALU2Mux,
+           i_D1             => s_ADD2Mux,
            o_O              => s_Mux2Mux);
 
   g_MUX2: mux2t1_N
@@ -85,6 +85,13 @@ begin
   port MAP(i_S              => i_Jump,
            i_D0             => s_Mux2Mux,
            i_D1             => s_JumpAddress,
+           o_O              => s_Jump2Jump);
+
+  g_MUX3: mux2t1_N
+  generic map(32)
+  port MAP(i_S              => i_JumpRegister,
+           i_D0             => s_Jump2Jump,
+           i_D1             => i_Register,
            o_O              => o_PCout);
 
   g_ADD4: AddSub_N

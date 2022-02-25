@@ -26,9 +26,12 @@ architecture behavior of tb_fetch is
     port(i_PCin             : in std_logic_vector(31 downto 0);
          i_Instruction      : in std_logic_vector(31 downto 0);
          i_Immediate        : in std_logic_vector(31 downto 0);
+         i_Register         : in std_logic_vector(31 downto 0);
          i_Jump             : in std_logic;
-         i_Branch           : in std_logic;
-         i_Zero             : in std_logic;
+         i_JumpRegister     : in std_logic;
+         i_BEQ              : in std_logic;
+         i_BNE              : in std_logic;
+         i_Equal            : in std_logic;
          o_PCout            : out std_logic_vector(31 downto 0));
   
   end component;
@@ -38,9 +41,12 @@ architecture behavior of tb_fetch is
   signal s_PCin         : std_logic_vector(31 downto 0) := 32x"0";
   signal s_Instruction  : std_logic_vector(31 downto 0) := 32x"0";
   signal s_Immediate    : std_logic_vector(31 downto 0) := 32x"0";
+  signal s_Register     : std_logic_vector(31 downto 0) := 32x"0";
   signal s_Jump         : std_logic;
-  signal s_Branch       : std_logic;
-  signal s_Zero         : std_logic;
+  signal s_JumpRegister : std_logic;
+  signal s_BEQ          : std_logic;
+  signal s_BNE          : std_logic;
+  signal s_Equal        : std_logic;
   
   signal s_PCout : std_logic_vector(31 downto 0);
 
@@ -50,9 +56,12 @@ begin
   port map(i_PCin           => s_PCin,
            i_Instruction    => s_Instruction,
            i_Immediate      => s_Immediate,
+           i_Register       => s_Register,
            i_Jump           => s_Jump,
-           i_Branch         => s_Branch,
-           i_Zero           => s_Zero,
+           i_JumpRegister   => s_JumpRegister,
+           i_BEQ            => s_BEQ,
+           i_BNE            => s_BNE,
+           i_Equal          => s_Equal,
            o_PCout          => s_PCout);
 
   -- This process sets the clock value (low for gCLK_HPER, then high
@@ -71,39 +80,99 @@ begin
   begin
 
     
-    s_PCin          <= 32x"000000A";
+    s_PCin          <= 32x"F000000A";
     s_Instruction   <= 32x"FFFF";
     s_Immediate     <= 32x"4";
+    s_Register      <= 32x"1234";
     s_Jump          <= '0';
-    s_Branch        <= '0';
-    s_Zero          <= '0';
-
-    wait for cCLK_PER;
-
-    s_PCin          <= 32x"A";
-    s_Instruction   <= 32x"FFFF";
-    s_Immediate     <= 32x"4";
-    s_Jump          <= '0';
-    s_Branch        <= '1';
-    s_Zero          <= '0';
-
-    wait for cCLK_PER;
-
-    s_PCin          <= 32x"A";
-    s_Instruction   <= 32x"FFFF";
-    s_Immediate     <= 32x"4";
-    s_Jump          <= '0';
-    s_Branch        <= '1';
-    s_Zero          <= '1';
+    s_JumpRegister  <= '0';
+    s_BEQ           <= '0';
+    s_BNE           <= '0';
+    s_Equal         <= '0';
 
     wait for cCLK_PER;
 
     s_PCin          <= 32x"F000000A";
     s_Instruction   <= 32x"FFFF";
     s_Immediate     <= 32x"4";
+    s_Register      <= 32x"1234";
+    s_Jump          <= '0';
+    s_JumpRegister  <= '0';
+    s_BEQ           <= '1';
+    s_BNE           <= '0';
+    s_Equal         <= '0';
+
+    wait for cCLK_PER;
+
+    s_PCin          <= 32x"F000000A";
+    s_Instruction   <= 32x"FFFF";
+    s_Immediate     <= 32x"4";
+    s_Register      <= 32x"1234";
+    s_Jump          <= '0';
+    s_JumpRegister  <= '0';
+    s_BEQ           <= '1';
+    s_BNE           <= '0';
+    s_Equal         <= '1';
+
+    wait for cCLK_PER;
+
+    s_PCin          <= 32x"F000000A";
+    s_Instruction   <= 32x"FFFF";
+    s_Immediate     <= 32x"4";
+    s_Register      <= 32x"1234";
+    s_Jump          <= '0';
+    s_JumpRegister  <= '0';
+    s_BEQ           <= '0';
+    s_BNE           <= '0';
+    s_Equal         <= '0';
+
+    wait for cCLK_PER;
+
+    s_PCin          <= 32x"F000000A";
+    s_Instruction   <= 32x"FFFF";
+    s_Immediate     <= 32x"4";
+    s_Register      <= 32x"1234";
+    s_Jump          <= '0';
+    s_JumpRegister  <= '0';
+    s_BEQ           <= '0';
+    s_BNE           <= '1';
+    s_Equal         <= '0';
+
+    wait for cCLK_PER;
+
+    s_PCin          <= 32x"F000000A";
+    s_Instruction   <= 32x"FFFF";
+    s_Immediate     <= 32x"4";
+    s_Register      <= 32x"1234";
+    s_Jump          <= '0';
+    s_JumpRegister  <= '0';
+    s_BEQ           <= '0';
+    s_BNE           <= '0';
+    s_Equal         <= '0';
+
+    wait for cCLK_PER;
+
+    s_PCin          <= 32x"F000000A";
+    s_Instruction   <= 32x"FFFF";
+    s_Immediate     <= 32x"4";
+    s_Register      <= 32x"1234";
     s_Jump          <= '1';
-    s_Branch        <= '1';
-    s_Zero          <= '1';
+    s_JumpRegister  <= '0';
+    s_BEQ           <= '0';
+    s_BNE           <= '1';
+    s_Equal         <= '0';
+
+    wait for cCLK_PER;
+
+    s_PCin          <= 32x"F000000A";
+    s_Instruction   <= 32x"FFFF";
+    s_Immediate     <= 32x"4";
+    s_Register      <= 32x"1234";
+    s_Jump          <= '1';
+    s_JumpRegister  <= '1';
+    s_BEQ           <= '0';
+    s_BNE           <= '0';
+    s_Equal         <= '0';
 
     wait for cCLK_PER;
 
