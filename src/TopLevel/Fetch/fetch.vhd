@@ -44,6 +44,14 @@ architecture structural of fetch is
   
   end component;
 
+  component mux2t1 is
+    port(
+        i_D0    : in std_logic;
+        i_D1    : in std_logic;
+        i_S     : in std_logic;
+        o_O     : out std_logic);
+  end component;
+
       signal s_InsIn        : std_logic_vector(27 downto 0);
       signal s_JumpAddress  : std_logic_vector(31 downto 0);
       signal s_Mux2Mux      : std_logic_vector(31 downto 0);
@@ -65,8 +73,7 @@ begin
 
 
 
-  g_MUX0: mux2t1_N
-  generic map(1)
+  g_MUX0: mux2t1
   port MAP(i_S              => i_Equal,
            i_D0             => i_BNE,
            i_D1             => i_BEQ,
@@ -99,7 +106,7 @@ begin
   port MAP(nAdd_Sub         => s_DC1,
            i_X              => i_PCin,
            i_Y              => s_ImmShf,
-           o_S              => s_ALU2Mux,
+           o_S              => s_ADD2Mux,
            o_C              => s_DC2);
   
 end structural;
