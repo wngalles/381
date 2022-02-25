@@ -1,1 +1,2 @@
-# 381![SingleCycle](https://user-images.githubusercontent.com/57072119/155597899-eaf5358f-1bd7-4f11-8a5b-97e9f723bd46.jpg)
+
+![SingleCycle (1)](https://user-images.githubusercontent.com/57072119/155739439-8b064d94-c75d-453f-a7d3-762eb9b019ab.jpg)
