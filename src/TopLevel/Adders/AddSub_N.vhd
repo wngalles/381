@@ -24,6 +24,7 @@ entity AddSub_N is
        i_X         : in std_logic_vector(N-1 downto 0);
        i_Y         : in std_logic_vector(N-1 downto 0);
        o_S          : out std_logic_vector(N-1 downto 0);
+       o_F          : out std_logic;
        o_C          : out std_logic);
 
 end AddSub_N;
@@ -36,6 +37,7 @@ architecture structural of AddSub_N is
              i_X         : in std_logic_vector(N-1 downto 0);
              i_Y         : in std_logic_vector(N-1 downto 0);
              o_S          : out std_logic_vector(N-1 downto 0);
+             o_F          : out std_logic;
              o_C          : out std_logic);
       
       end component;
@@ -67,6 +69,7 @@ begin
              i_X               => i_X,
              i_Y              => s_M,
              o_S               => o_S,
+             o_F               => o_F,
              o_C               => o_C);
 
     g_Mux: mux2t1_N
