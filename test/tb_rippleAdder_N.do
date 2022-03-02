@@ -12,6 +12,9 @@
 #########################################################################
 
 
+package require fileutil
+
+eval vcom -2008 -work work [::fileutil::findByPattern . -glob *.vhd]
 
 vsim -voptargs=+acc tb_rippleAdder_N
 
@@ -38,18 +41,20 @@ add wave -noupdate /tb_rippleAdder_N/s_Y
 add wave -noupdate -divider {Data Outputs}
 add wave -noupdate /tb_rippleAdder_N/s_S
 add wave -noupdate /tb_rippleAdder_N/s_oC
+add wave -noupdate /tb_rippleAdder_N/s_oF
+add wave -noupdate /tb_rippleAdder_N/DUT0/s_C
 
 
-add wave -noupdate -divider {Data Inputs - Decimal}
-add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_iC
-add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_X
-add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_Y
+#add wave -noupdate -divider {Data Inputs - Decimal}
+#add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_iC
+#add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_X
+#add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_Y
 
-add wave -noupdate -divider {Data Outputs - Decimal}
-add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_S
-add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_oC
+#add wave -noupdate -divider {Data Outputs - Decimal}
+#add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_S
+#add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_oC
 
 #add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_iD1
 #add wave -noupdate -radix unsigned /tb_rippleAdder_N/s_iS
 
-run 185 
+run 235 

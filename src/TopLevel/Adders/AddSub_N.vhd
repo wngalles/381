@@ -19,7 +19,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity AddSub_N is
-  generic(N : integer := 16); -- Generic of type integer for input/output data width. Default value is 32.
+  generic(N : integer := 32); -- Generic of type integer for input/output data width. Default value is 32.
   port(nAdd_Sub     : in std_logic;
        i_X         : in std_logic_vector(N-1 downto 0);
        i_Y         : in std_logic_vector(N-1 downto 0);
@@ -32,7 +32,7 @@ end AddSub_N;
 architecture structural of AddSub_N is
 
     component rippleAdder_N is
-        generic(N : integer := 16); 
+        generic(N : integer := 32); 
         port(i_C          : in std_logic;
              i_X         : in std_logic_vector(N-1 downto 0);
              i_Y         : in std_logic_vector(N-1 downto 0);
@@ -43,7 +43,7 @@ architecture structural of AddSub_N is
       end component;
 
       component mux2t1_N is
-        generic(N : integer := 16); -- Generic of type integer for input/output data width. Default value is 32.
+        generic(N : integer := 32); -- Generic of type integer for input/output data width. Default value is 32.
         port(i_S          : in std_logic;
              i_D0         : in std_logic_vector(N-1 downto 0);
              i_D1         : in std_logic_vector(N-1 downto 0);
@@ -52,7 +52,7 @@ architecture structural of AddSub_N is
       end component;   
 
       component onesComp_N is
-        generic(N : integer := 16); -- Generic of type integer for input/output data width. 
+        generic(N : integer := 32); -- Generic of type integer for input/output data width. 
         port(i_A          : in std_logic_vector(N-1 downto 0);
              o_F          : out std_logic_vector(N-1 downto 0));
       
@@ -79,9 +79,9 @@ begin
              i_D1              => s_I,
              o_O               => s_M);
 
-    g_Inv: onesComp_N
+    HELP: onesComp_N
     generic map(N)
-    port MAP(i_A             => I_Y,
+    port MAP(i_A             => i_Y,
              o_F               => s_I);
   
 end structural;

@@ -19,7 +19,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity rippleAdder_N is
-  generic(N : integer := 16); -- Generic of type integer for input/output data width. Default value is 32.
+  generic(N : integer := 32); -- Generic of type integer for input/output data width. Default value is 32.
   port(i_C          : in std_logic;
        i_X         : in std_logic_vector(N-1 downto 0);
        i_Y         : in std_logic_vector(N-1 downto 0);
