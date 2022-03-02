@@ -138,6 +138,28 @@ architecture mixed of tb_ALU is
 
         wait for cCLK_PER;
 
+        --SLT True
+        s_In1         <= 32x"FFFF0000";  
+        s_In2         <= 32x"0000A5E1";
+        s_ALUop       <= "0001100";        
+
+        wait for cCLK_PER;
+
+        --SLT False
+        s_In1         <= 32x"12345678";  
+        s_In2         <= 32x"FFFF0000";
+        s_ALUop       <= "0001100";        
+
+        wait for cCLK_PER;
+
+        --Movn
+        s_In1         <= 32x"00000000";  
+        s_In2         <= 32x"12345678";
+        s_ALUop       <= "0000000";
+        s_Movn        <= '1';    
+
+        wait for cCLK_PER;
+
 
         
 
