@@ -35,6 +35,7 @@ component rippleAdder_N is
          i_X         : in std_logic_vector(N-1 downto 0);
          i_Y         : in std_logic_vector(N-1 downto 0);
          o_S          : out std_logic_vector(N-1 downto 0);
+         o_F          : out std_logic;
          o_C          : out std_logic);
   
   end component;
@@ -50,6 +51,7 @@ signal s_X   : std_logic_vector(n-1 downto 0) := x"00000000";
 signal s_Y   : std_logic_vector(n-1 downto 0) := x"00000000";
 signal s_S   : std_logic_vector(n-1 downto 0);
 signal s_oC   : std_logic;
+signal s_oF   : std_logic;
 
 
 
@@ -62,6 +64,7 @@ begin
             i_X        => s_X,
             i_Y        => s_Y,
             o_S        => s_S,
+            o_F        => s_oF,
             o_C        => s_oC);
 
 
@@ -142,6 +145,12 @@ begin
     s_iC   <= '1';
     s_X    <= x"00000016";
     s_Y    <= x"00000025";
+
+    wait for gCLK_HPER*2;
+
+    s_iC   <= '0';
+    s_X    <= x"80000000";
+    s_Y    <= x"80000000";
 
 
     -- TODO: add test cases as needed (at least 3 more for this lab)

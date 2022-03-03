@@ -19,11 +19,12 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 
 entity rippleAdder_N is
-  generic(N : integer := 16); -- Generic of type integer for input/output data width. Default value is 32.
+  generic(N : integer := 32); -- Generic of type integer for input/output data width. Default value is 32.
   port(i_C          : in std_logic;
        i_X         : in std_logic_vector(N-1 downto 0);
        i_Y         : in std_logic_vector(N-1 downto 0);
        o_S          : out std_logic_vector(N-1 downto 0);
+       o_F          : out std_logic;
        o_C          : out std_logic);
 
 end rippleAdder_N;
@@ -37,6 +38,14 @@ architecture structural of rippleAdder_N is
             i_C     : in std_logic;
             o_S     : out std_logic;
             o_C     : out std_logic);
+    end component;
+
+    component xorg2 is
+
+      port(i_A          : in std_logic;
+           i_B          : in std_logic;
+           o_F          : out std_logic);
+    
     end component;
 
       signal s_C : std_logic_vector(N downto 0);
@@ -53,6 +62,11 @@ begin
               o_S      => o_S(i),  
               o_C      => s_C(i+1));  
   end generate G_NBit_Ripple;
+
+  XORI: xorg2 port map(
+              i_A     => s_C(N),  
+              i_B     => s_C(N-1),  
+              o_F     => o_F);  
 
   o_C <= s_C(N);
   

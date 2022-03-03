@@ -31,6 +31,7 @@ architecture structural of fetch is
          i_X         : in std_logic_vector(N-1 downto 0);
          i_Y         : in std_logic_vector(N-1 downto 0);
          o_S          : out std_logic_vector(N-1 downto 0);
+         o_F          : out std_logic;
          o_C          : out std_logic);
   
   end component;
@@ -64,6 +65,7 @@ architecture structural of fetch is
 
       signal s_DC1          : std_logic := '0';
       signal s_DC2          : std_logic;
+      signal s_DC3          : std_logic;
 
 begin
 
@@ -107,6 +109,7 @@ begin
            i_X              => i_PCin,
            i_Y              => s_ImmShf,
            o_S              => s_ADD2Mux,
+           o_F              => s_DC3,
            o_C              => s_DC2);
   
 end structural;

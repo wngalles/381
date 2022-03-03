@@ -25,6 +25,7 @@ package MIPS_types is
   end record control_t;
 
   type inputArray is array(0 to 31) of std_logic_vector(31 downto 0);
+  type ALUArray is array(0 to 7) of std_logic_vector(31 downto 0);
 
 end package MIPS_types;
 

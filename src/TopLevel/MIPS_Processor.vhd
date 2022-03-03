@@ -83,8 +83,75 @@ architecture structure of MIPS_Processor is
     );
     end component;
 
+    component reg_N is
+      generic(N : integer); 
+      port(i_CLK         : in std_logic;
+            i_RST        : in std_logic;
+            i_WE         : in std_logic;
+            i_D          : in std_logic_vector(N-1 downto 0);
+            o_Q          : out std_logic_vector(N-1 downto 0));
+    
+    end component;
+
+    component ALU is
+      port( i_In1             : in std_logic_vector(31 downto 0);
+            i_In2             : in std_logic_vector(31 downto 0);
+            i_ALUop           : in std_logic_vector(6 downto 0);
+            i_Movn            : in std_logic;
+            i_SHAMT           : in std_logic_vector(4 downto 0);
+            o_Equal           : out std_logic;
+            o_OverFlow        : out std_logic;
+            o_Out1            : out std_logic_vector(31 downto 0));
+    
+    end component;
+
+    component fetch is
+      port(i_PCin             : in std_logic_vector(31 downto 0);
+           i_Instruction      : in std_logic_vector(31 downto 0);
+           i_Immediate        : in std_logic_vector(31 downto 0);
+           i_Register         : in std_logic_vector(31 downto 0);
+           i_Jump             : in std_logic;
+           i_JumpRegister     : in std_logic;
+           i_BEQ              : in std_logic;
+           i_BNE              : in std_logic;
+           i_Equal            : in std_logic;
+           o_PCout            : out std_logic_vector(31 downto 0));
+    
+    end component;
+
+    component pc is
+      port(i_CLK              : in std_logic;
+           i_RST              : in std_logic;
+           i_WE               : in std_logic;
+           i_PCin             : in std_logic_vector(31 downto 0);
+           o_PCout            : out std_logic_vector(31 downto 0));
+    
+    end component;
+
+    component Bit16_32 is
+      port( i_A          : in std_logic_vector(15 downto 0);
+            i_S          : in std_logic;
+            o_O          : out  std_logic_vector(31 downto 0));
+    
+    end component;
+
+    component mux2t1_N is
+      generic(N : integer);
+      port(i_S          : in std_logic;
+           i_D0         : in std_logic_vector(N-1 downto 0);
+           i_D1         : in std_logic_vector(N-1 downto 0);
+           o_O          : out std_logic_vector(N-1 downto 0));
+    
+    end component;
+
+
+
   -- TODO: You may add any additional signals or components your implementation 
   --       requires below this comment
+
+
+
+
 
 begin
 
@@ -116,6 +183,21 @@ begin
   -- TODO: Ensure that s_Ovfl is connected to the overflow output of your ALU
 
   -- TODO: Implement the rest of your processor below this comment! 
+
+  X_RegFile: reg_N
+    generic map(32)
+    port map(i_CLK    => 
+             i_S      => 
+             i_R1     => 
+             i_R2     => 
+             i_WE     => 
+             i_RST    => 
+             i_D      => 
+             o_Q1     => 
+             o_Q2     => );
+
+
+
 
 end structure;
 
