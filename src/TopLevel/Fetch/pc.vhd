@@ -14,7 +14,8 @@ entity pc is
        i_RST              : in std_logic;
        i_WE               : in std_logic;
        i_PCin             : in std_logic_vector(31 downto 0);
-       o_PCout            : out std_logic_vector(31 downto 0));
+       o_PCout            : out std_logic_vector(31 downto 0);
+       o_PC4out            : out std_logic_vector(31 downto 0));
 
 end pc;
 
@@ -62,8 +63,10 @@ begin
   port MAP(nAdd_Sub         => s_DC1,
            i_X              => s_PC_ADD,
            i_Y              => s_Four,
-           o_S              => o_PCout,
+           o_S              => o_PC4out,
            o_F              => s_DC3,
            o_C              => s_DC2);
+
+  o_PCout <= s_PC_ADD;
   
 end structural;
