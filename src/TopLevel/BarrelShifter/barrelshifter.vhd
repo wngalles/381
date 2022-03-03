@@ -45,7 +45,7 @@ architecture structural of barrelshifter is
     begin
 
         gen: for i in 0 to 32-1 generate
-            flip1(i) <= A(i) when left='0' else A(32-1-i);
+            flip1(i) <= A(i) when left='1' else A(32-1-i);
         end generate;
 
         shift16 <= A(32-1-16 downto 0) & 16x"0000"; 
@@ -104,7 +104,7 @@ architecture structural of barrelshifter is
             );
 
         gener: for i in 0 to 32-1 generate
-            O(i) <= layer5(i) when left='0' else layer5(32-1-i);
+            O(i) <= layer5(i) when left='1' else layer5(32-1-i);
         end generate;
         
 

@@ -132,6 +132,18 @@ architecture mixed of tb_barrelshifter is
         test_case_number <= 6;
         wait for gCLK_HPER*2;
 
+        ----------------------------------------------
+        -- all ones shift left 16
+        A <= 32x"FFFFFFFF";
+        offset <= "10000";
+        left <= '0';
+
+        expected <= 32x"FFFF0000";
+        wait for gCLK_HPER;
+        passed <= expected = O;
+        test_case_number <= 7;
+        wait for gCLK_HPER*2;
+
     end process;
 
 end mixed;
