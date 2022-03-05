@@ -64,34 +64,36 @@ begin
   -- Level 0: Inverting Select 
   ---------------------------------------------------------------------------
  
-  g_Not: invg
-    port MAP(i_A              => i_S,
-             o_F              => s_IS);
+  --g_Not: invg
+  --  port MAP(i_A              => i_S,
+  --           o_F              => s_IS);
 
+  s_IS <= not i_S;
 
   ---------------------------------------------------------------------------
   -- Level 1: And gates
   ---------------------------------------------------------------------------
-  g_And1: andg2
-    port MAP(i_A               => i_D0,
-             i_B               => s_IS,
-             o_F               => s_A1);
+  --g_And1: andg2
+  --  port MAP(i_A               => i_D0,
+  --           i_B               => s_IS,
+  --           o_F               => s_A1);
   
-  g_And2: andg2
-    port MAP(i_A               => i_D1,
-             i_B               => i_S,
-             o_F               => s_A2);
+  --g_And2: andg2
+  --  port MAP(i_A               => i_D1,
+   --          i_B               => i_S,
+   --          o_F               => s_A2);
+  s_A1 <= i_D0 and s_IS;
+  s_A2 <= i_D1 and i_S;
 
-    
   ---------------------------------------------------------------------------
   -- Level 2: Final Or gate
   ---------------------------------------------------------------------------
-  g_Or: org2
-    port MAP(i_A               => s_A1,
-             i_B               => s_A2,
-             o_F               => o_O);
+  --g_Or: org2
+   -- port MAP(i_A               => s_A1,
+   --          i_B               => s_A2,
+   --          o_F               => o_O);
 
-  
+  o_O <= s_A1 or s_A2;
     
 
   end structure;
