@@ -157,11 +157,11 @@ begin
 
 
   GZERO: equalZero 
-  port map(i_In         => s_OpSelect(0),
+  port map(i_In         => s_AdderSubO,
            o_EqualZero  => o_Equal); --Check THIS 
 
   s_OpSelect(5) <=  s_Zero; --Remove when adding barrel shifter
-  s_OpSelect(6) <=  s_Zero; --Not Used
+  s_OpSelect(6) <=  s_MovnHold(15 downto 0) & 16x"0"; --Lui
   s_OpSelect(7) <=  s_Zero; --Not Used        
 
   MUX_Op: mux32t1_8 

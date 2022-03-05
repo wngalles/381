@@ -21,7 +21,7 @@ architecture dataflow of equalZero is
 begin
 
   with i_In select o_EqualZero <=
-    '1' when 32x"0",
+    '1' when "00000000000000000000000000000000",
     '0' when others;
   
 end dataflow;

@@ -65,7 +65,7 @@ architecture structural of regFile is
 
 begin
 
-  Decode: decode5to1
+  G_Decode: decode5to1
     port MAP(i_S               => i_S,
              i_E               => i_WE,
              o_O               => s_S);

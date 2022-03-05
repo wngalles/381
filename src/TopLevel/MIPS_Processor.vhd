@@ -83,7 +83,9 @@ architecture structure of MIPS_Processor is
         bne : out std_logic;
         movn : out std_logic;
         j : out std_logic;
-        control_vector : out std_logic_vector(18-1 downto 0)
+        halt : out std_logic;
+        signExt : out std_logic;
+        control_vector : out std_logic_vector(20-1 downto 0)
       );
       end component;
 
@@ -182,7 +184,7 @@ architecture structure of MIPS_Processor is
   signal s_J                    : std_logic;                                -- signal Jump
         
         
-  signal s_NoConnect            : std_logic_vector(17 downto 0);            -- signal no connnect for control vector
+  signal s_NoConnect            : std_logic_vector(19 downto 0);            -- signal no connnect for control vector
         
   signal s_PC4                  : std_logic_vector(31 downto 0);            -- signal PC + 4
   signal s_PCReturn             : std_logic_vector(31 downto 0);            -- signal PC Return
@@ -268,6 +270,8 @@ begin
              bne              => s_Bne,
              movn             => s_Movn,
              j                => s_J,
+             halt             => s_Halt,
+             signExt          => s_Signed,
              control_vector   => s_NoConnect);   
              
   X_Fetch: fetch      
@@ -341,6 +345,10 @@ begin
     port map(i_S              => s_Movn,
              i_D0             => s_RegWrite,
              i_D1             => s_Equal,
-             o_O               generic map(1)  
+             o_O              => s_RegWr); 
+
+
+  oALUOut <= s_DMemAddr;
+
 end structure;
 
