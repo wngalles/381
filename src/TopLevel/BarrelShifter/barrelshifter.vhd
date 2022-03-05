@@ -14,11 +14,12 @@ entity barrelshifter is
     A : in std_logic_vector(32-1 downto 0);
     O : out std_logic_vector(32-1 downto 0);
     offset : in std_logic_vector(5-1 downto 0);
-    left : in std_logic
+    left : in std_logic;
+    arith : in std_logic
   );
   end barrelshifter;
 
-architecture structural of barrelshifter is
+architecture mixed of barrelshifter is
 
     component mux2t1_N is
         generic(N : integer := 16); -- Generic of type integer for input/output data width. Default value is 32.
@@ -42,13 +43,28 @@ architecture structural of barrelshifter is
     signal shift8 : std_logic_vector(32-1 downto 0) := 32x"0";
     signal shift16 : std_logic_vector(32-1 downto 0) := 32x"0";
 
+    signal arith1  : std_logic;
+    signal arith2  : std_logic_vector(1 downto 0);
+    signal arith4  : std_logic_vector(3 downto 0);
+    signal arith8  : std_logic_vector(7 downto 0);
+    signal arith16 : std_logic_vector(15 downto 0);
+
     begin
 
         gen: for i in 0 to 32-1 generate
-            flip1(i) <= A(i) when left='1' else A(32-1-i);
+            flip1(i) <= A(i) when left='0' else A(32-1-i);
         end generate;
 
-        shift16 <= A(32-1-16 downto 0) & 16x"0000"; 
+        with arith select arith1 <=
+        flip1(0) when '1',
+        '0' when others;
+
+        arith2  <= arith1 & arith1;
+        arith4  <= arith2 & arith2;
+        arith8  <= arith4 & arith4;
+        arith16 <= arith8 & arith8;
+
+        shift16 <= A(32-1-16 downto 0) & arith16; 
 
         L1 : mux2t1_N
             generic map(N => 32)
@@ -59,7 +75,7 @@ architecture structural of barrelshifter is
               o_O => layer1
             );
 
-        shift8 <= layer1(32-1-8 downto 0) & 8x"00"; 
+        shift8 <= layer1(32-1-8 downto 0) & arith8; 
         
         L2 : mux2t1_N
         generic map(N => 32)
@@ -70,7 +86,7 @@ architecture structural of barrelshifter is
               o_O => layer2
             );
 
-        shift4 <= layer2(32-1-4 downto 0) & 4x"0"; 
+        shift4 <= layer2(32-1-4 downto 0) & arith4; 
 
         L3 : mux2t1_N
         generic map(N => 32)
@@ -81,7 +97,7 @@ architecture structural of barrelshifter is
               o_O => layer3
             );
 
-        shift2 <= layer3(32-1-2 downto 0) & "00"; 
+        shift2 <= layer3(32-1-2 downto 0) & arith2; 
 
         L4 : mux2t1_N
         generic map(N => 32)
@@ -92,7 +108,7 @@ architecture structural of barrelshifter is
               o_O => layer4
             );
 
-        shift1 <= layer4(32-1-1 downto 0) & '0'; 
+        shift1 <= layer4(32-1-1 downto 0) & arith1; 
 
         L5 : mux2t1_N
         generic map(N => 32)
@@ -104,8 +120,8 @@ architecture structural of barrelshifter is
             );
 
         gener: for i in 0 to 32-1 generate
-            O(i) <= layer5(i) when left='1' else layer5(32-1-i);
+            O(i) <= layer5(i) when left='0' else layer5(32-1-i);
         end generate;
         
 
-    end structural;
+    end mixed;

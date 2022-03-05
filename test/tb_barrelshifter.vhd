@@ -31,7 +31,8 @@ architecture mixed of tb_barrelshifter is
           A : in std_logic_vector(32-1 downto 0);
           O : out std_logic_vector(32-1 downto 0);
           offset : in std_logic_vector(5-1 downto 0);
-          left : in std_logic
+          left : in std_logic;
+          arith : in std_logic
         );
     end component;
 
@@ -39,6 +40,7 @@ architecture mixed of tb_barrelshifter is
     signal O : std_logic_vector(32-1 downto 0);
     signal offset : std_logic_vector(5-1 downto 0);
     signal left : std_logic;
+    signal arith : std_logic := '0';
 
     signal test_case_number : integer;
     signal is_left : integer;
@@ -53,7 +55,8 @@ architecture mixed of tb_barrelshifter is
             A => A,
             O => O,
             offset => offset,
-            left => left
+            left => left,
+            arith => arith
         );
 
     -- Assign inputs for each test case.
@@ -143,6 +146,35 @@ architecture mixed of tb_barrelshifter is
         passed <= expected = O;
         test_case_number <= 7;
         wait for gCLK_HPER*2;
+
+
+        ----------------------------------------------
+        -- all ones shift arith right 16
+        A <= 32x"FFFFFFFF";
+        offset <= "10000";
+        left <= '1';
+        arith <= '1';
+
+        expected <= 32x"FFFFFFFF";
+        wait for gCLK_HPER;
+        passed <= expected = O;
+        test_case_number <= 8;
+        wait for gCLK_HPER*2;
+
+
+        ----------------------------------------------
+        -- all ones shift arith right 16
+        A <= 32x"80000000";
+        offset <= "00011";
+        left <= '1';
+        arith <= '1';
+
+        expected <= 32x"F0000000";
+        wait for gCLK_HPER;
+        passed <= expected = O;
+        test_case_number <= 9;
+        wait for gCLK_HPER*2;
+
 
     end process;
 

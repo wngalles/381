@@ -89,10 +89,16 @@ architecture structural of ALU is
         port(i_In         : in std_logic_vector(32-1 downto 0);
              o_EqualZero  : out std_logic);
       
-      end component;
+    end component;
       
 
-    --Barrel Shifter needs added
+    component barrelshifter is
+        port(A : in std_logic_vector(32-1 downto 0);
+             O : out std_logic_vector(32-1 downto 0);
+             offset : in std_logic_vector(5-1 downto 0);
+             left : in std_logic;
+             arith : in std_logic);
+    end component;
 
 
     
@@ -160,7 +166,16 @@ begin
   port map(i_In         => s_AdderSubO,
            o_EqualZero  => o_Equal); --Check THIS 
 
-  s_OpSelect(5) <=  s_Zero; --Remove when adding barrel shifter
+
+  SHIFTER: barrelshifter 
+  port map(
+           A         => i_In2,          
+           O         => s_OpSelect(5),  
+           Offset    => i_SHAMT,
+           left      => i_ALUop(1),
+           arith     => i_ALUop(0));  
+
+
   s_OpSelect(6) <=  s_MovnHold(15 downto 0) & 16x"0"; --Lui
   s_OpSelect(7) <=  s_Zero; --Not Used        
 
@@ -169,5 +184,8 @@ begin
            i_S       => i_ALUop(6 downto 4),          
            i_D       => s_OpSelect,  
            o_Q       => o_Out1);  
+
+
+  
   
 end structural;
