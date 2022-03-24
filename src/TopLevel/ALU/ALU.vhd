@@ -120,7 +120,7 @@ begin
 
   MUX_MOVN: mux2t1_N 
   port map(i_S          => i_Movn,
-           i_D0         => i_In2,
+           i_D0         => i_In1,
            i_D1         => s_Zero,
            o_O          => s_MovnHold);
 
@@ -134,8 +134,8 @@ begin
   ADDnSUB: AddSub_N
   generic map(32)
   port MAP(nAdd_Sub     => i_ALUop(2), --CHECK THIS
-           i_X          => i_In1,
-           i_Y          => s_MovnHold,
+           i_X          => s_MovnHold,
+           i_Y          => i_In2,
            o_S          => s_AdderSubO, 
            o_F          => o_OverFlow,
            o_C          => s_TEMP_OVERFLOW);
@@ -176,7 +176,7 @@ begin
            arith     => i_ALUop(0));  
 
 
-  s_OpSelect(6) <=  s_MovnHold(15 downto 0) & 16x"0"; --Lui
+  s_OpSelect(6) <=  i_In2(15 downto 0) & 16x"0"; --Lui
   s_OpSelect(7) <=  s_Zero; --Not Used        
 
   MUX_Op: mux32t1_8 

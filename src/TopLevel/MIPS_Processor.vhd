@@ -162,6 +162,13 @@ architecture structure of MIPS_Processor is
           o_O     : out std_logic);
     end component;
 
+    component invg is
+
+      port(i_A          : in std_logic;
+           o_F          : out std_logic);
+    
+    end component;
+
 
 
   -- TODO: You may add any additional signals or components your implementation 
@@ -172,7 +179,8 @@ architecture structure of MIPS_Processor is
   signal s_ALUop                : std_logic_vector(6 downto 0);             -- signal ALU op from control to ALU
         
   signal s_Movn                 : std_logic;                                -- signal Movn Signal
-  signal s_Equal                : std_logic;                                -- signal Equal Signal
+  signal s_Equal                : std_logic;                                -- signal Equal Signals
+  signal s_NotEqual             : std_logic;                                -- signal Equal Signals
   signal s_ALUSrc               : std_logic;                                -- signal ALU Source Signal
   signal s_MemToReg             : std_logic;                                -- signal ALU output vs Data mem output
   signal s_RegWrite             : std_logic;                                -- signal Register Write control Signal
@@ -312,7 +320,7 @@ begin
              i_D0             => s_MuxRItoJAL,
              i_D1             => s_31,
              o_O              => s_RegWrAddr); 
-
+             
   X_MUX_WriteData_PcPlusFour: mux2t1_N
     generic map(32)      
     port map(i_S              => s_Jal,
@@ -324,7 +332,7 @@ begin
     generic map(32)      
     port map(i_S              => s_Movn,
              i_D0             => s_MuxALUvsMemToMovn,
-             i_D1             => s_DMemData,
+             i_D1             => s_Ro1ToALU,
              o_O              => s_MuxMovnToJal); 
 
   X_MUX_WriteData_AluVsMem: mux2t1_N
@@ -344,8 +352,13 @@ begin
   X_MUX_WriteReg_Movn: mux2t1    
     port map(i_S              => s_Movn,
              i_D0             => s_RegWrite,
-             i_D1             => s_Equal,
+             i_D1             => s_NotEqual,
              o_O              => s_RegWr); 
+
+  
+  X_MUX_InvEq_Movn: invg    
+    port map(i_A              => s_Equal,
+             o_F              => s_NotEqual); 
 
 
   oALUOut <= s_DMemAddr;
