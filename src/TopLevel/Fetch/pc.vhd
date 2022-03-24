@@ -52,7 +52,7 @@ architecture structural of pc is
       end component;
 
       signal s_PC_ADD : std_logic_vector(31 downto 0);
-      signal s_Four : std_logic_vector(31 downto 0) := 32x"4";
+      signal s_Four : std_logic_vector(31 downto 0) := x"00000004";
       signal s_DC1 : std_logic := '0';
       signal s_DC2 : std_logic;
       signal s_DC3 : std_logic;

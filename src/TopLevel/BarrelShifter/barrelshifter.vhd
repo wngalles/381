@@ -30,18 +30,18 @@ architecture mixed of barrelshifter is
       
     end component;
       
-    signal flip1 : std_logic_vector(32-1 downto 0) := 32x"0";
-    signal layer1 : std_logic_vector(32-1 downto 0) := 32x"0";
-    signal layer2 : std_logic_vector(32-1 downto 0) := 32x"0";
-    signal layer3 : std_logic_vector(32-1 downto 0) := 32x"0";
-    signal layer4 : std_logic_vector(32-1 downto 0) := 32x"0";
-    signal layer5 : std_logic_vector(32-1 downto 0) := 32x"0";
+    signal flip1 : std_logic_vector(32-1 downto 0) := x"00000000";
+    signal layer1 : std_logic_vector(32-1 downto 0) := x"00000000";
+    signal layer2 : std_logic_vector(32-1 downto 0) := x"00000000";
+    signal layer3 : std_logic_vector(32-1 downto 0) := x"00000000";
+    signal layer4 : std_logic_vector(32-1 downto 0) := x"00000000";
+    signal layer5 : std_logic_vector(32-1 downto 0) := x"00000000";
 
-    signal shift1 : std_logic_vector(32-1 downto 0) := 32x"0";
-    signal shift2 : std_logic_vector(32-1 downto 0) := 32x"0";
-    signal shift4 : std_logic_vector(32-1 downto 0) := 32x"0";
-    signal shift8 : std_logic_vector(32-1 downto 0) := 32x"0";
-    signal shift16 : std_logic_vector(32-1 downto 0) := 32x"0";
+    signal shift1 : std_logic_vector(32-1 downto 0) := x"00000000";
+    signal shift2 : std_logic_vector(32-1 downto 0) := x"00000000";
+    signal shift4 : std_logic_vector(32-1 downto 0) := x"00000000";
+    signal shift8 : std_logic_vector(32-1 downto 0) := x"00000000";
+    signal shift16 : std_logic_vector(32-1 downto 0) := x"00000000";
 
     signal arith1  : std_logic;
     signal arith2  : std_logic_vector(1 downto 0);
@@ -64,7 +64,7 @@ architecture mixed of barrelshifter is
         arith8  <= arith4 & arith4;
         arith16 <= arith8 & arith8;
 
-        shift16 <= flip1(32-1-16 downto 0) & arith16; 
+        shift16 <= flip1(32-1-16 downto 0) & arith16;  
 
         L1 : mux2t1_N
             generic map(N => 32)
