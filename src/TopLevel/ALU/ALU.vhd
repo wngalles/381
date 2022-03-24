@@ -108,11 +108,13 @@ architecture structural of ALU is
     signal s_OrSplit               : std_logic_vector(31 downto 0);
 
     signal s_MovnHold              : std_logic_vector(31 downto 0);
-    signal s_Zero                  : std_logic_vector(31 downto 0) := 32x"0";
+    signal s_Zero                  : std_logic_vector(31 downto 0) := x"00000000";
 
     signal s_AdderSubO             : std_logic_vector(31 downto 0);
 
     signal s_TEMP_OVERFLOW         : std_logic;
+
+    signal temp : std_logic_vector(31 downto 0);
 
 begin
 
@@ -127,7 +129,7 @@ begin
   MUX_COMPARE: mux2t1_N 
   port map(i_S          => i_ALUop(3),
            i_D0         => s_AdderSubO,
-           i_D1         => 31x"0" & s_AdderSubO(31),
+           i_D1         => "0000000000000000000000000000000" & s_AdderSubO(31), --31x"0"
            o_O          => s_OpSelect(0)); --Check THIS
 
 
@@ -176,7 +178,7 @@ begin
            arith     => i_ALUop(0));  
 
 
-  s_OpSelect(6) <=  s_MovnHold(15 downto 0) & 16x"0"; --Lui
+  s_OpSelect(6) <=  s_MovnHold(15 downto 0) & x"0000"; --Lui
   s_OpSelect(7) <=  s_Zero; --Not Used        
 
   MUX_Op: mux32t1_8 

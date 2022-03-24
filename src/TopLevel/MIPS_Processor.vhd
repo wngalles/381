@@ -189,7 +189,7 @@ architecture structure of MIPS_Processor is
   signal s_PC4                  : std_logic_vector(31 downto 0);            -- signal PC + 4
   signal s_PCReturn             : std_logic_vector(31 downto 0);            -- signal PC Return
   signal s_ImmExt               : std_logic_vector(31 downto 0);            -- signal Extended Immediate
-  signal s_31                   : std_logic_vector(4 downto 0) := 5x"1F";   -- signal ALU op from control to ALU
+  signal s_31                   : std_logic_vector(4 downto 0) := "11111";   -- signal ALU op from control to ALU
         
   signal s_PCEN                 : std_logic := '1';                         -- signal Jump
   signal s_Signed               : std_logic;                                -- signal Signed Signal for the Immediate extender
