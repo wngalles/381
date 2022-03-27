@@ -4,8 +4,8 @@
 
 # data section
 .data
-list: .word 2, 7, 3, 5, 9, 1, 6
-size: .word 7
+list: .word 0, 5, 6, 2, 1
+size: .word 5
 
 # code/instruction section
 .text
@@ -13,89 +13,96 @@ size: .word 7
 main:
 
 lw $s0, size
+addi $s0, $s0, 0
 la $t0, list # starting address of list is in $t0
-addi $t1, $zero, 0 # address increment
-j check_is_sorted
 
+jal bubble_repeat_until
+j exit
 
-check_is_sorted:
-# loop through an array and check if each element is less than the next element
-# if all items are in order, branch to end
-# otherwise branch to swap_first_out_of_order
-addi $t3, $0, 1 # $t3 represents it being "valid"
-j check_conditional
+bubble_repeat_until:
 
+add $t9, $0, $0 # swapped = $t9, if 1 swapped is true, if 0, swapped is false
 
-check_body:
-# $t4 = list[i], $t5 = list[i+1]
-# t6 = i
-sll $t6, $t1, 2
-add $t6, $t6, $t1
-lw $t4, 0($t6)
+addi $v0, $0, 0
+addi $s1, $zero, 4 # i
+addi $a0, $s0, 0
+addi $a1, $s1, 0
+jal bubble_for_loop_call
 
-# list[i+1]
-lw $t5, 4($t6)
+slt $t1, $0, $v0 # t1 = 1 if something has swapped
+bne $t1, $0, bubble_repeat_until
+j exit
 
-slt $t6, $t4, $t5 # is list[i] < list[i+1]
-and $t3, $t3, $t6 # overall validity is anded with current validity
-j check_conditional
+# for loop
 
+# evaluate if swapped
+# if swapped, repeat
+# if not swapped exit
 
-check_conditional:
-# if i < len(list)-1 -> check body, else, confirm sorted
-addi $t4, $s0, 1
-slt $t2, $t1, $t4
-addi $t5, $0, 1
-beq $t2, $t5, check_body
-j check_confirm_sorted
+bubble_for_loop_call:
+addi $s3, $ra, 0
+j bubble_for_loop
 
-check_confirm_sorted:
-# if $t3 is 1, it is sorted, otherwise, run the loop on swap_first_out_of_order
-slt $t4, $t3, $0
-bne $t4, $0 swap_first_out_of_order
-j exit 
+bubble_for_loop:
 
-swap_first_out_of_order:
-# iterate through the array.
-# when an item is less than the next item, swap the current item with the next item.
-# continue 
+# if i < n-1: -> for_loop_interior: n++
+# call bubble for loop again
 
+# a0 = n-1
+# a1 = i
+srl $t1, $a1, 2
+slt $t1, $t1, $a0 # if i < n-1: for loop interior: otherwise, return
+bne $t1, $0, for_loop_interior_call
 
-swap_body:
-# $t4 = list[i], $t5 = list[i+1]
-# t6 = i
-sll $t6, $t1, 2
-add $t6, $t6, $t1
-lw $t4, 0($t6)
+addi $v0, $v0, 0 # return swapped
+addi $ra, $s3, 0
+jr $ra
 
-# list[i+1]
-lw $t5, 4($t6)
+# if it gets through, return $v0
 
-slt $t6, $t4, $t5 # is list[i] < list[i+1]
+for_loop_interior_call:
+addi $a1, $a1, 0 # a1 = i
+addi $a0, $a1, -4  # a0 = i-1
+add $a1, $a1, $t0 # a1 = $a[n]
+add $a0, $a0, $t0 # a0 = $a[n-1]
 
-# if $t6 is 0, swap $t4 and $t5 in memory 
-beq $t6, $0, swap_regs
-j swap_conditional
+jal for_loop_interior
 
-swap_regs:
-lw $t7, 0($t4)
-lw $t8, 0($t5)
+addi $s1, $s1, 4 # i++
+addi $a0, $s0, 0 # a0 = n-1
+addi $a1, $s1, 0 # a1 = i
+j bubble_for_loop
 
-sw $t8, 0($t4)
-sw $t7, 0($t5)
-j swap_conditional
+for_loop_interior:
 
+# if this pair is out of order, tell them to swap
+addi $t8, $ra, 0
 
-swap_conditional:
-# if i < len(list)-1 -> check body, else, confirm sorted
-addi $t4, $s0, 1
-slt $t2, $t1, $t4
-addi $t5, $0, 1
-beq $t2, $t5, swap_body
-j check_is_sorted
+addi $s7, $0, 0 # swapped = False
 
+# get pair
+lw $t4, 0($a0)
+lw $t5, 0($a1)
 
+# swapped = if a > b: swap
+sgt $t6, $t4, $t5  # if a0 > a1: t6 = 1
+bne $t6, $0, swap
 
+or $v0, $s7, $v0 # return swapped
+addi $ra, $t8, 0
+jr $ra
 
+swap:
+
+# swap items
+lw $t4, 0($a0)
+lw $t5, 0($a1)
+sw $t4, 0($a1)
+sw $t5, 0($a0)
+
+# swapped = true
+addi $v0, $0, 1
+jr $ra
 
 exit:
+halt
