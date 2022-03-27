@@ -180,7 +180,7 @@ begin
 
 
   s_OpSelect(6) <=  i_In2(15 downto 0) & x"0000"; --Lui
-  s_OpSelect(7) <=  s_OpSelect(2); --Unsigned       
+  s_OpSelect(7) <=  s_OpSelect(0); --Unsigned       
 
   MUX_Op: mux32t1_8 
   port map(
@@ -190,8 +190,8 @@ begin
 
 
     with i_ALUop(6 downto 4) select o_OverFlow <=
-        s_TEMP_OVERFLOW when "111",
-        '0' when others;
+        '0' when "111",
+        s_TEMP_OVERFLOW when others;
 
   
   
