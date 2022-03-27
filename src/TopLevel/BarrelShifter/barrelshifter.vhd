@@ -64,7 +64,7 @@ architecture mixed of barrelshifter is
         arith8  <= arith4 & arith4;
         arith16 <= arith8 & arith8;
 
-        shift16 <= A(32-1-16 downto 0) & arith16; 
+        shift16 <= flip1(32-1-16 downto 0) & arith16;  
 
         L1 : mux2t1_N
             generic map(N => 32)

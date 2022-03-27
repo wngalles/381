@@ -165,11 +165,11 @@ architecture mixed of tb_barrelshifter is
         ----------------------------------------------
         -- all ones shift arith right 16
         A <= 32x"80000000";
-        offset <= "00011";
+        offset <= "10000";
         left <= '1';
         arith <= '1';
 
-        expected <= 32x"F0000000";
+        expected <= 32x"FFFF8000";
         wait for gCLK_HPER;
         passed <= expected = O;
         test_case_number <= 9;
