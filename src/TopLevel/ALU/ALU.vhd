@@ -113,6 +113,7 @@ architecture structural of ALU is
     signal s_AdderSubO             : std_logic_vector(31 downto 0);
 
     signal s_TEMP_OVERFLOW         : std_logic;
+    signal s_NC                    : std_logic;
 
     signal temp : std_logic_vector(31 downto 0);
 
@@ -139,8 +140,8 @@ begin
            i_X          => s_MovnHold,
            i_Y          => i_In2,
            o_S          => s_AdderSubO, 
-           o_F          => o_OverFlow,
-           o_C          => s_TEMP_OVERFLOW);
+           o_F          => s_TEMP_OVERFLOW,
+           o_C          => s_NC);
 
   GAND: and_N 
   port map(i_In1        => i_In1,
@@ -179,7 +180,7 @@ begin
 
 
   s_OpSelect(6) <=  i_In2(15 downto 0) & x"0000"; --Lui
-  s_OpSelect(7) <=  s_Zero; --Not Used        
+  s_OpSelect(7) <=  s_OpSelect(2); --Unsigned       
 
   MUX_Op: mux32t1_8 
   port map(
@@ -187,6 +188,10 @@ begin
            i_D       => s_OpSelect,  
            o_Q       => o_Out1);  
 
+
+    with i_ALUop(6 downto 4) select o_OverFlow <=
+        s_TEMP_OVERFLOW when "111",
+        '0' when others;
 
   
   
