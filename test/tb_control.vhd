@@ -43,7 +43,7 @@ architecture mixed of tb_control is
         bne : out std_logic;
         movn : out std_logic;
         j : out std_logic;
-        control_vector : out std_logic_vector(18-1 downto 0)
+        control_vector : out std_logic_vector(20-1 downto 0)
         );
     end component;
 
@@ -71,9 +71,9 @@ architecture mixed of tb_control is
     signal test_case_number : integer;
     signal is_r_type : integer;
 
-    signal expected : std_logic_vector(18-1 downto 0);
+    signal expected : std_logic_vector(20-1 downto 0);
     signal passed : boolean;
-    signal control_vector : std_logic_vector(18-1 downto 0);
+    signal control_vector : std_logic_vector(20-1 downto 0);
 
     begin
 
@@ -110,7 +110,7 @@ architecture mixed of tb_control is
         opcode <= "001000";
         funct <= "000000";
 
-        expected <= "1" & "0000000" & "0010" & "0000" & "00";
+        expected <= "01" & "1" & "0000000" & "0010" & "0000" & "00" ;
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -125,7 +125,7 @@ architecture mixed of tb_control is
         opcode <= "001001";
         funct <= "000000";
 
-        expected <= "1" & "0000000" & "0010" & "0000" & "00";
+        expected <= "01" & "1" & "1110000" & "0010" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -140,7 +140,7 @@ architecture mixed of tb_control is
         opcode <= "001100";
         funct <= "000000";
         
-        expected <= "1" & "0010000" & "0010" & "0000" & "00";
+        expected <= "00" & "1" & "0010000" & "0010" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -155,7 +155,7 @@ architecture mixed of tb_control is
         opcode <= "001111";
         funct <= "000000";
         
-        expected <= "1" & "1010010" & "0010" & "0000" & "00";
+        expected <= "01" & "1" & "1100000" & "0010" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -170,7 +170,7 @@ architecture mixed of tb_control is
         opcode <= "100011";
         funct <= "000000";
         
-        expected <= "1" & "0000000" & "1010" & "0000" & "00";
+        expected <= "01" & "1" & "0000000" & "1010" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -185,7 +185,7 @@ architecture mixed of tb_control is
         opcode <= "001110";
         funct <= "000000";
         
-        expected <= "1" & "1000000" & "0010" & "0000" & "00";
+        expected <= "00" & "1" & "1000000" & "0010" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -200,7 +200,7 @@ architecture mixed of tb_control is
         opcode <= "001101";
         funct <= "000000";
         
-        expected <= "1" & "0100000" & "0010" & "0000" & "00";
+        expected <= "00" & "1" & "0100000" & "0010" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -215,7 +215,7 @@ architecture mixed of tb_control is
         opcode <= "001010";
         funct <= "000000";
         
-        expected <= "1" & "0001100" & "0010" & "0000" & "00";
+        expected <= "01" & "1" & "0001100" & "0010" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -230,7 +230,7 @@ architecture mixed of tb_control is
         opcode <= "101011";
         funct <= "000000";
         
-        expected <= "1" & "0000000" & "0100" & "0000" & "00";
+        expected <= "01" & "1" & "0000000" & "0100" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -245,7 +245,7 @@ architecture mixed of tb_control is
         opcode <= "000100";
         funct <= "000000";
         
-        expected <= "1" & "0000100" & "0000" & "0010" & "00";
+        expected <= "01" & "0" & "0000100" & "0000" & "0010" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -260,7 +260,7 @@ architecture mixed of tb_control is
         opcode <= "000101";
         funct <= "000000";
         
-        expected <= "1" & "0000100" & "0000" & "0001" & "00";
+        expected <= "01" & "0" & "0000100" & "0000" & "0001" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -275,7 +275,7 @@ architecture mixed of tb_control is
         opcode <= "000010";
         funct <= "000000";
         
-        expected <= "0" & "0000000" & "0000" & "0000" & "01";
+        expected <= "01" & "0" & "0000000" & "0000" & "0000" & "01";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -290,7 +290,7 @@ architecture mixed of tb_control is
         opcode <= "000011";
         funct <= "000000";
         
-        expected <= "0" & "0000000" & "0010" & "1000" & "00";
+        expected <= "01" & "0" & "0000000" & "0010" & "1000" & "01";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -309,7 +309,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "100000";
         
-        expected <= "0" & "0000000" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "0000000" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -324,7 +324,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "100001";
         
-        expected <= "0" & "0000000" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "1110000" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -339,7 +339,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "100100";
         
-        expected <= "0" & "0010000" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "0010000" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -354,7 +354,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "100111";
         
-        expected <= "0" & "0110000" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "0110000" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -369,7 +369,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "100110";
         
-        expected <= "0" & "1000000" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "1000000" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -384,7 +384,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "100101";
         
-        expected <= "0" & "0100000" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "0100000" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -399,7 +399,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "101010";
         
-        expected <= "0" & "0001100" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "0001100" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -414,7 +414,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "000000";
         
-        expected <= "0" & "1010010" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "1010000" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -429,7 +429,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "000010";
         
-        expected <= "0" & "1010000" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "1010010" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -444,7 +444,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "000011";
         
-        expected <= "0" & "1010001" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "1010011" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -459,7 +459,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "100010";
         
-        expected <= "0" & "0000100" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "0000100" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -474,7 +474,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "100011";
         
-        expected <= "0" & "0000100" & "0011" & "0000" & "00";
+        expected <= "01" & "0" & "1110100" & "0011" & "0000" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -489,7 +489,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "001000";
         
-        expected <= "0" & "0000000" & "0001" & "0100" & "00";
+        expected <= "01" & "0" & "0000000" & "0001" & "0100" & "00";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -504,7 +504,7 @@ architecture mixed of tb_control is
         opcode <= "000000";
         funct <= "001011";
         
-        expected <= "0" & "0000000" & "0011" & "0000" & "10";
+        expected <= "01" & "0" & "0000000" & "0011" & "0000" & "10";
         wait for gCLK_HPER;
         instruction <= opcode & 20x"0" & funct;
         wait for gCLK_HPER;
@@ -512,6 +512,21 @@ architecture mixed of tb_control is
         
 
         test_case_number <= 27;
+        wait for gCLK_HPER*2;
+        
+        ----------------------------------------------
+        -- halt
+        opcode <= "010100";
+        funct <= "000000";
+        
+        expected <= "01" & "0" & "0000000" & "0011" & "0000" & "10";
+        wait for gCLK_HPER;
+        instruction <= opcode & 20x"0" & funct;
+        wait for gCLK_HPER;
+        passed <= expected = control_vector;
+        
+
+        test_case_number <= 28;
         wait for gCLK_HPER*2;
         
     end process;

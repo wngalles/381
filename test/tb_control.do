@@ -27,4 +27,4 @@ add wave -noupdate -label TestCaseNumber -radix unsigned /tb_control/test_case_n
 add wave -noupdate -divider {Outputs}
 add wave -noupdate -label ControlVector -radix binary /tb_control/DUT0/control_vector
 
-run 1100 
+run 1200
