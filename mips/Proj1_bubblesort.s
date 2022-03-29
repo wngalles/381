@@ -105,3 +105,4 @@ addi $v0, $0, 1
 jr $ra
 
 exit:
+halt
