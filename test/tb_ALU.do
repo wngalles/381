@@ -33,4 +33,4 @@ add wave -noupdate -label Out /tb_ALU/s_Out1
 
 
 
-run 250 
+run 620

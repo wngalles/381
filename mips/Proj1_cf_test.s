@@ -9,6 +9,16 @@ add $sp $zero $zero
 #load user n into argument
 addi $a0 $zero 10
 
+j Test
+halt
+
+Test:
+
+beq $zero $zero Test2
+halt
+
+Test2:
+
 jal Fib_Rec
 
 # Print Fib output

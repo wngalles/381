@@ -80,11 +80,43 @@ architecture mixed of tb_ALU is
     begin
         
         --Basic Add
+        s_In1         <= 32x"00000000";  
+        s_In2         <= 32x"00000000";
+        s_ALUop       <= "0000000";        
+
+        wait for cCLK_PER;
+
+        --Basic Add
+        s_In1         <= 32x"FFFFFFFF";  
+        s_In2         <= 32x"FFFFFFFF";
+        s_ALUop       <= "0000000";        
+
+        wait for cCLK_PER;
+
+        --Basic Add
+        s_In1         <= 32x"FFFF0000";  
+        s_In2         <= 32x"00FFFF00";
         s_ALUop       <= "0000000";        
 
         wait for cCLK_PER;
 
         --Basic Sub
+        s_In1         <= 32x"00000000";  
+        s_In2         <= 32x"00000000";
+        s_ALUop       <= "0000100";        
+
+        wait for cCLK_PER;
+        
+        --Basic Sub
+        s_In1         <= 32x"FFFFFFFF";  
+        s_In2         <= 32x"FFFFFFFF";
+        s_ALUop       <= "0000100";        
+
+        wait for cCLK_PER;
+
+        --Basic Sub
+        s_In1         <= 32x"FFFF0000";  
+        s_In2         <= 32x"00FFFF00";
         s_ALUop       <= "0000100";        
 
         wait for cCLK_PER;
@@ -111,29 +143,85 @@ architecture mixed of tb_ALU is
         wait for cCLK_PER;
 
         --AND
+        s_In1         <= 32x"00000000";  
+        s_In2         <= 32x"00000000";
+        s_ALUop       <= "0010000";        
+
+        wait for cCLK_PER;
+
+        --AND
+        s_In1         <= 32x"FFFFFFFF";  
+        s_In2         <= 32x"FFFFFFFF";
+        s_ALUop       <= "0010000";        
+
+        wait for cCLK_PER;
+
+        --AND
         s_In1         <= 32x"FFFF0000";  
-        s_In2         <= 32x"1234FDCB";
+        s_In2         <= 32x"00FFFF00";
         s_ALUop       <= "0010000";        
 
         wait for cCLK_PER;
 
         --OR
+        s_In1         <= 32x"00000000";  
+        s_In2         <= 32x"00000000";
+        s_ALUop       <= "0100000";        
+
+        wait for cCLK_PER;
+
+        --OR
+        s_In1         <= 32x"FFFFFFFF";  
+        s_In2         <= 32x"FFFFFFFF";
+        s_ALUop       <= "0100000";        
+
+        wait for cCLK_PER;
+
+        --OR
         s_In1         <= 32x"FFFF0000";  
-        s_In2         <= 32x"1234FDCB";
+        s_In2         <= 32x"00FFFF00";
         s_ALUop       <= "0100000";        
 
         wait for cCLK_PER;
 
         --XOR
+        s_In1         <= 32x"00000000";  
+        s_In2         <= 32x"00000000";
+        s_ALUop       <= "1000000";        
+
+        wait for cCLK_PER;
+
+        --XOR
         s_In1         <= 32x"FFFFFFFF";  
-        s_In2         <= 32x"0000A5E1";
+        s_In2         <= 32x"FFFFFFFF";
+        s_ALUop       <= "1000000";        
+
+        wait for cCLK_PER;
+
+        --XOR
+        s_In1         <= 32x"FFFF0000";  
+        s_In2         <= 32x"00FFFF00";
         s_ALUop       <= "1000000";        
 
         wait for cCLK_PER;
 
         --NOR
+        s_In1         <= 32x"00000000";  
+        s_In2         <= 32x"00000000";
+        s_ALUop       <= "0110000";        
+
+        wait for cCLK_PER;
+
+        --NOR
+        s_In1         <= 32x"FFFFFFFF";  
+        s_In2         <= 32x"FFFFFFFF";
+        s_ALUop       <= "0110000";        
+
+        wait for cCLK_PER;
+
+        --NOR
         s_In1         <= 32x"FFFF0000";  
-        s_In2         <= 32x"0000A5E1";
+        s_In2         <= 32x"00FFFF00";
         s_ALUop       <= "0110000";        
 
         wait for cCLK_PER;
@@ -152,9 +240,65 @@ architecture mixed of tb_ALU is
 
         wait for cCLK_PER;
 
-        --Movn
+        --SLL
         s_In1         <= 32x"00000000";  
-        s_In2         <= 32x"12345678";
+        s_In2         <= 32x"00000001";
+        s_ALUop       <= "1010000";  
+        s_SHAMT       <= "00001";      
+
+        wait for cCLK_PER;
+
+        --SLL
+        s_In1         <= 32x"00000000";  
+        s_In2         <= 32x"00000001";
+        s_ALUop       <= "1010000"; 
+        s_SHAMT       <= "11111";          
+
+        wait for cCLK_PER;
+
+         --SRL
+         s_In1         <= 32x"00000000";  
+         s_In2         <= 32x"80000000";
+         s_ALUop       <= "1010010";  
+         s_SHAMT       <= "00001";      
+ 
+         wait for cCLK_PER;
+ 
+         --SRL
+         s_In1         <= 32x"00000000";  
+         s_In2         <= 32x"80000000";
+         s_ALUop       <= "1010010"; 
+         s_SHAMT       <= "11111";          
+ 
+         wait for cCLK_PER;
+
+         --SRA
+         s_In1         <= 32x"00000000";  
+         s_In2         <= 32x"80000000";
+         s_ALUop       <= "1010011";  
+         s_SHAMT       <= "00001";      
+ 
+         wait for cCLK_PER;
+ 
+         --SRA
+         s_In1         <= 32x"00000000";  
+         s_In2         <= 32x"80000000";
+         s_ALUop       <= "1010011"; 
+         s_SHAMT       <= "11111";          
+ 
+         wait for cCLK_PER;
+
+        --Movn
+        s_In1         <= 32x"0F0F0F0F";  
+        s_In2         <= 32x"00000001";
+        s_ALUop       <= "0000000";
+        s_Movn        <= '1';    
+
+        wait for cCLK_PER;
+
+        --Movn
+        s_In1         <= 32x"0F0F0F0F";  
+        s_In2         <= 32x"00000000";
         s_ALUop       <= "0000000";
         s_Movn        <= '1';    
 
