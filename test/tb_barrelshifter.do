@@ -23,7 +23,7 @@ add wave -noupdate -label Offset -radix binary /tb_barrelshifter/offset
 add wave -noupdate -label Pass -radix binary /tb_barrelshifter/passed
 add wave -noupdate -label Pass -radix binary /tb_barrelshifter/expected
 
-add wave -noupdate -label left -radix binary /tb_barrelshifter/left
+add wave -noupdate -label right -radix binary /tb_barrelshifter/left
 add wave -noupdate -label arith -radix binary /tb_barrelshifter/arith
 
 add wave -noupdate -label TestCaseNumber -radix unsigned /tb_barrelshifter/test_case_number
