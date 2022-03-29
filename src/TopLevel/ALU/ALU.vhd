@@ -190,8 +190,8 @@ begin
 
 
     with i_ALUop(6 downto 4) select o_OverFlow <=
-        '0' when "111",
-        s_TEMP_OVERFLOW when others;
+        s_TEMP_OVERFLOW when "000",
+        '0' when others;
 
   
   
