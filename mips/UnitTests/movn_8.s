@@ -7,6 +7,7 @@ main:
 
     addiu $31, $zero, 1  # setting reg 31 temporarily to the value 1, since movn will not work if the third register in the command is 0
     addiu $30, $zero, -10 # setting register 30 temporarily to the value 10, so that we can see when the value successfully moves
+
     movn $1, $30, $31    # verify that register 1 can have the value -10 moved into it from register 30, given register 31 is not equal to 0
     movn $2, $30, $31    # verify that register 1 can have the value -10 moved into it from register 30, given register 31 is not equal to 0
     movn $3, $30, $31    # verify that register 1 can have the value -10 moved into it from register 30, given register 31 is not equal to 0

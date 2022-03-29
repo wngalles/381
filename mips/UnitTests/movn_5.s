@@ -10,6 +10,8 @@
 main:
 
 li $t1, 1
+li $t2, 2
+li $sp, 0
 
 movn $t2, $t1, $t1
 
