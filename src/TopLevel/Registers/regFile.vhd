@@ -36,7 +36,7 @@ end regFile;
 
 architecture structural of regFile is
 
-    component reg_N is
+    component reg_Neg is
         generic(N : integer := 16); -- Generic of type integer for input/output data width. Default value is 32.
         port(i_CLK         : in std_logic;
               i_RST        : in std_logic;
@@ -70,7 +70,7 @@ begin
              i_E               => i_WE,
              o_O               => s_S);
 
-  REG0: reg_N generic map(32) port map(
+  REG0: reg_Neg generic map(32) port map(
     i_CLK     => i_CLK,
     i_RST     => '1',       
     i_WE      => '0',  
@@ -79,7 +79,7 @@ begin
 
   -- Instantiate N mux instances.
   G_NBit_REG: for i in 1 to 31 generate
-    REGI: reg_N generic map(32) port map(
+    REGI: reg_Neg generic map(32) port map(
               i_CLK     => i_CLK,
               i_RST     => i_RST,       
               i_WE      => s_S(i),  

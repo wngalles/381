@@ -13,6 +13,7 @@ entity pc is
   port(i_CLK              : in std_logic;
        i_RST              : in std_logic;
        i_WE               : in std_logic;
+       i_Change           : in std_logic;
        i_PCin             : in std_logic_vector(31 downto 0);
        o_PCout            : out std_logic_vector(31 downto 0);
        o_PC4out            : out std_logic_vector(31 downto 0));
@@ -58,14 +59,21 @@ architecture structural of pc is
       signal s_DC3 : std_logic;
       signal s_RST : std_logic_vector(31 downto 0) := x"00400000";
       signal s_TRANS : std_logic_vector(31 downto 0);
+      signal s_WEin : std_logic;
+
+      signal s_FourOut : std_logic_vector(31 downto 0);
+      signal s_Inter : std_logic_vector(31 downto 0);
 
 begin
+
+  s_WEin <= i_WE or i_RST;
+  o_PC4out <= s_FourOut;
 
   g_PCreg: reg_N
   generic map(32)
   port MAP(i_CLK            => i_CLK,
            i_RST            => '0',
-           i_WE             => i_WE,
+           i_WE             => s_WEin,
            i_D              => s_TRANS,
            o_Q              => s_PC_ADD);
 
@@ -74,16 +82,23 @@ begin
   port MAP(nAdd_Sub         => s_DC1,
            i_X              => s_PC_ADD,
            i_Y              => s_Four,
-           o_S              => o_PC4out,
+           o_S              => s_FourOut,
            o_F              => s_DC3,
            o_C              => s_DC2);
           
   g_RST: mux2t1_N
   generic map(32)
   port MAP(i_S              => i_RST,
-           i_D0             => i_PCin,
+           i_D0             => s_Inter,
            i_D1             => s_RST,
            o_O              => s_TRANS);
+
+  g_PIPE: mux2t1_N
+  generic map(32)
+  port MAP(i_S              => i_Change,
+           i_D0             => s_FourOut,
+           i_D1             => i_PCin,
+           o_O              => s_Inter);
 
   o_PCout <= s_PC_ADD;
   

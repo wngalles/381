@@ -18,15 +18,35 @@ addi  $8,  $0,  8		# Place “8” in $8
 addi  $9,  $0,  9		# Place “9” in $9
 addi  $10, $0,  10		# Place “10” in $10
 add	 $11, $1,  $2		# $11 = $1 + $2
+nop
+nop
 sub 	 $12, $11, $3 		# $12 = $11 - $3
+nop
+nop
 add 	 $13, $12, $4		# $13 = $12 + $4
+nop
+nop
 sub	 $14, $13, $5		# $14 = $13 - $5
+nop
+nop
 add   $15, $14, $6		# $15 = $14 + $6
+nop
+nop
 sub 	 $16, $15, $7		# $16 = $15 - $7
+nop
+nop
 add   $17, $16, $8		# $17 = $16 + $8
+nop
+nop
 sub 	 $18, $17, $9		# $18 = $17 - $9
+nop
+nop
 add   $19, $18, $10 	# $19 = $18 + $10
+nop
+nop
 addi  $20, $0,  35		# Place “35” in $20
+nop
+nop
 add 	 $21, $19, $20	 	# $21 = $19 + $20
 
 halt

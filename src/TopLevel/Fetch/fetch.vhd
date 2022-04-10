@@ -19,6 +19,7 @@ entity fetch is
        i_BEQ              : in std_logic;
        i_BNE              : in std_logic;
        i_Equal            : in std_logic;
+       o_Change           : out std_logic;
        o_PCout            : out std_logic_vector(31 downto 0));
 
 end fetch;
@@ -72,6 +73,8 @@ begin
     s_InsIn         <= i_Instruction(25 downto 0) & '0' & '0';
     s_JumpAddress   <= i_PCin(31 downto 28) & s_InsIn;
     s_ImmShf        <= i_Immediate(29 downto 0) & '0' & '0';
+
+    o_Change <= i_Jump or i_BEQ or i_BNE or i_JumpRegister;
 
 
 
