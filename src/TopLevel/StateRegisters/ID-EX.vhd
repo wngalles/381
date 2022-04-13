@@ -106,6 +106,14 @@ begin
     i_D       => i_PC4,  
     o_Q       => o_PC4);
 
+  REG_INS: reg_N generic map(32) port map(
+    i_CLK     => i_CLK,
+    i_RST     => i_Flush,       
+    i_WE      => i_Stall,  
+    i_D       => i_Instruction,  
+    o_Q       => o_Instruction);
+
+
   REG_ALUOP: reg_N generic map(7) port map(
     i_CLK     => i_CLK,
     i_RST     => i_Flush,       
