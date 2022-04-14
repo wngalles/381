@@ -15,6 +15,7 @@ use work.MIPS_types.all;
 
 entity ID_EX is
   port(i_CLK              : in std_logic;
+        i_RST             : in std_logic;
         i_Stall           : in std_logic;
         i_Flush           : in std_logic;
 
@@ -74,41 +75,43 @@ architecture structural of ID_EX is
             o_Q          : out std_logic);   -- Data value output
       end component;
 
-
+      signal s_reset : std_logic;
 
 begin
 
+  s_reset <= i_RST or i_Flush;
+
   REG_R1: reg_N generic map(32) port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_Reg1,  
     o_Q       => o_Reg1);
 
   REG_R2: reg_N generic map(32) port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_Reg2,  
     o_Q       => o_Reg2);
 
   REG_IMM: reg_N generic map(32) port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_Immediate,  
     o_Q       => o_Immediate);
 
   REG_PC4: reg_N generic map(32) port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_PC4,  
     o_Q       => o_PC4);
 
   REG_INS: reg_N generic map(32) port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_Instruction,  
     o_Q       => o_Instruction);
@@ -116,14 +119,14 @@ begin
 
   REG_ALUOP: reg_N generic map(7) port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_ALUop,  
     o_Q       => o_ALUop);
 
   REG_DEST: reg_N generic map(5) port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_RegDest,  
     o_Q       => o_RegDest);
@@ -131,49 +134,49 @@ begin
 
   DFF_JAL: dffg port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_Jal,  
     o_Q       => o_Jal);
     
   DFF_ALU_SRC: dffg port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_ALU_Src,  
     o_Q       => o_ALU_Src); 
 
   DFF_MEM_REG: dffg port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_Mem_Reg,  
     o_Q       => o_Mem_Reg);
     
   DFF_MEM_WR: dffg port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_Mem_Wr,  
     o_Q       => o_Mem_Wr); 
 
   DFF_MOVN: dffg port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_Movn,  
     o_Q       => o_Movn); 
 
   DFF_REG_WR: dffg port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_Reg_Wr,  
     o_Q       => o_Reg_Wr); 
 
   DFF_HALT: dffg port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_Halt,  
     o_Q       => o_Halt); 

@@ -42,9 +42,11 @@ entity EX_MEM is
 
         i_PC4             : in std_logic_vector(31 downto 0);
         i_ALUout          : in std_logic_vector(31 downto 0);
+        i_Reg1            : in std_logic_vector(31 downto 0);
         i_Reg2            : in std_logic_vector(31 downto 0);
         o_PC4             : out std_logic_vector(31 downto 0);
         o_ALUout          : out std_logic_vector(31 downto 0);
+        o_Reg1            : out std_logic_vector(31 downto 0);
         o_Reg2            : out std_logic_vector(31 downto 0));
 
 end EX_MEM;
@@ -73,6 +75,13 @@ architecture structural of EX_MEM is
 
 
 begin
+
+  REG_R1: reg_N generic map(32) port map(
+    i_CLK     => i_CLK,
+    i_RST     => i_Flush,       
+    i_WE      => i_Stall,  
+    i_D       => i_Reg1,  
+    o_Q       => o_Reg1);
 
   REG_R2: reg_N generic map(32) port map(
     i_CLK     => i_CLK,

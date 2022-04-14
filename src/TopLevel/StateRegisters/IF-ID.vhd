@@ -15,6 +15,7 @@ use work.MIPS_types.all;
 
 entity IF_ID is
   port(i_CLK              : in std_logic;
+        i_RST             : in std_logic;
         i_Stall           : in std_logic;
         i_Flush           : in std_logic;
         i_PC4             : in std_logic_vector(31 downto 0);
@@ -36,18 +37,22 @@ architecture structural of IF_ID is
       
       end component;
 
+      signal s_reset : std_logic;
+
 begin
+
+  s_reset <= i_RST or i_Flush;
 
   REG_INS: reg_N generic map(32) port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_Instruction,  
     o_Q       => o_Instruction);
 
   REG_PC4: reg_N generic map(32) port map(
     i_CLK     => i_CLK,
-    i_RST     => i_Flush,       
+    i_RST     => s_reset,       
     i_WE      => i_Stall,  
     i_D       => i_PC4,  
     o_Q       => o_PC4);
