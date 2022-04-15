@@ -79,6 +79,8 @@ architecture structural of forward is
     signal R2_ALU_MemPC   : std_logic_vector(31 downto 0); 
     signal R2_MemPC_ExPC  : std_logic_vector(31 downto 0); 
 
+    signal Ex_Zero       : std_logic;
+    signal Mem_Zero      : std_logic;
 
 
 begin
@@ -119,10 +121,17 @@ begin
              i_We             => i_EX_JAL or i_MEM_JAL,
              o_Equal          => R2_JAL);  
 
+    with i_RegDestEX select Ex_Zero <=
+    '1' when "00000",
+    '0' when others;
+
+    with i_RegDestMem select Mem_Zero <=
+    '1' when "00000",
+    '0' when others;
+
     
-    
-    R1_Forward <= (R1_JAL or R1_MEM or (R1_EX and not i_EX_RegMEM)) and not ((R1_EX and i_EX_RegMEM) or (R2_EX and i_EX_RegMEM));
-    R2_Forward <= (R2_JAL or R2_MEM or (R2_EX and not i_EX_RegMEM)) and not ((R1_EX and i_EX_RegMEM) or (R2_EX and i_EX_RegMEM));
+    R1_Forward <= (R1_JAL or R1_MEM or (R1_EX and not i_EX_RegMEM)) and not ((R1_EX and i_EX_RegMEM) or (R2_EX and i_EX_RegMEM) or Ex_Zero or Mem_Zero);
+    R2_Forward <= (R2_JAL or R2_MEM or (R2_EX and not i_EX_RegMEM)) and not ((R1_EX and i_EX_RegMEM) or (R2_EX and i_EX_RegMEM) or Ex_Zero or Mem_Zero);
 
     o_Forward <= R1_Forward or R2_Forward;
 
