@@ -21,14 +21,21 @@ end equalsHaz;
 
 architecture dataflow of equalsHaz is
 
-    signal sig_XOR : std_logic_vector(4 downto 0);    
+    signal sig_XOR : std_logic_vector(4 downto 0);  
+    signal sig_tem : std_logic;   
 
 begin
 
   sig_XOR <= i_In1 xor i_In2;
 
-  with sig_XOR select o_Equal <=
+  with sig_XOR select sig_tem <=
     i_We when "00000",
     '0' when others;
+
+  with i_In1 select o_Equal <=
+    '0' when "00000",
+    sig_tem when others;
+
+  
   
 end dataflow;
