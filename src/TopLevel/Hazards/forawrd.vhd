@@ -130,8 +130,8 @@ begin
     '0' when others;
 
     
-    R1_Forward <= (R1_JAL or R1_MEM or (R1_EX and not i_EX_RegMEM)) and not ((R1_EX and i_EX_RegMEM) or (R2_EX and i_EX_RegMEM);-- or (Ex_Zero and i_RegWrEX) or (Mem_Zero and i_RegWrMEM));
-    R2_Forward <= (R2_JAL or R2_MEM or (R2_EX and not i_EX_RegMEM)) and not ((R1_EX and i_EX_RegMEM) or (R2_EX and i_EX_RegMEM);-- or (Ex_Zero and i_RegWrEX) or (Mem_Zero and i_RegWrMEM));
+    R1_Forward <= (R1_JAL or R1_MEM or (R1_EX and not i_EX_RegMEM)) and not ((R1_EX and i_EX_RegMEM) or (R2_EX and i_EX_RegMEM));-- or (Ex_Zero and i_RegWrEX) or (Mem_Zero and i_RegWrMEM));
+    R2_Forward <= (R2_JAL or R2_MEM or (R2_EX and not i_EX_RegMEM)) and not ((R1_EX and i_EX_RegMEM) or (R2_EX and i_EX_RegMEM));-- or (Ex_Zero and i_RegWrEX) or (Mem_Zero and i_RegWrMEM));
 
     o_Forward <= R1_Forward or R2_Forward;
 
