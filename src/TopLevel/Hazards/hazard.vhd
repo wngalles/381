@@ -22,6 +22,9 @@ entity hazard is
         i_Reg2            : in std_logic_vector(4 downto 0);
 
         i_PCupdate        : in std_logic;
+        i_Forward         : in std_logic;
+
+        i_Halt            : in std_logic;
 
         o_PCstall         : out std_logic;  --Data Hazard
         o_IDstall         : out std_logic;  --Control Hazard
@@ -84,16 +87,16 @@ begin
     DataHaz <= R1_EX or R1_MEM or R2_EX or R2_MEM;
 
     ControlHaz <= i_PCupdate;
-    NotDataHaz <= not DataHaz;
+    NotDataHaz <= not (DataHaz and not i_Forward);
     
-    o_EXstall <= not DataHaz;
-    o_EXflush <= DataHaz;
-    o_PCstall <= not DataHaz;
+    o_EXstall <= NotDataHaz;
+    o_EXflush <= (DataHaz and not i_Forward);
+    o_PCstall <= NotDataHaz;
 
-    NotOr <= DataHaz or ControlHaz;
+    NotOr <= (DataHaz and not i_Forward) or ControlHaz;
 
-    o_IDstall <= not NotOr;
-    o_IDflush <= ControlHaz and NotDataHaz;
+    o_IDstall <= not (NotOr or i_Halt);
+    o_IDflush <= (ControlHaz and NotDataHaz) or i_Halt;
     
 
 

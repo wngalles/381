@@ -314,12 +314,47 @@ architecture structure of MIPS_Processor is
             i_Reg2            : in std_logic_vector(4 downto 0);
     
             i_PCupdate        : in std_logic;
+            i_Forward         : in std_logic;
+
+            i_Halt            : in std_logic;
     
             o_PCstall         : out std_logic;  --Data Hazard
             o_IDstall         : out std_logic;  --Control Hazard
             o_IDflush         : out std_logic;  --Control Hazard
             o_EXstall         : out std_logic;  --Data Hazard
             o_EXflush         : out std_logic); --Data Hazard
+    
+    end component;
+
+    component forward is
+      port( i_RegWrEX         : in std_logic;
+            i_RegDestEX       : in std_logic_vector(4 downto 0);
+            i_RegWrMEM        : in std_logic;
+            i_RegDestMEM      : in std_logic_vector(4 downto 0);
+            i_Reg1            : in std_logic_vector(4 downto 0);
+            i_Reg2            : in std_logic_vector(4 downto 0);
+    
+            i_EX_RegMEM       : in std_logic;
+            i_MEM_RegMEM      : in std_logic;
+    
+            i_EX_JAL          : in std_logic;
+            i_MEM_JAL         : in std_logic;
+    
+            i_EX_AluOut       : in std_logic_vector(31 downto 0);
+            i_MEM_AluOut      : in std_logic_vector(31 downto 0);
+            i_DmemOut         : in std_logic_vector(31 downto 0);
+    
+            i_EX_PC4          : in std_logic_vector(31 downto 0);
+            i_MEM_PC4         : in std_logic_vector(31 downto 0);
+    
+    
+            o_R1              : out std_logic_vector(31 downto 0);
+            o_R2              : out std_logic_vector(31 downto 0);
+    
+            o_R1ctl           : out std_logic;
+            o_R2ctl           : out std_logic;
+    
+            o_Forward         : out std_logic); --Forward Signal
     
     end component;
 
@@ -456,8 +491,18 @@ architecture structure of MIPS_Processor is
   signal s_WB_MuxALUvsMemToMovn    : std_logic_vector(31 downto 0);            -- signal ALU vs Mem mux to Movn Mux 
   signal s_WB_MuxMovnToJal         : std_logic_vector(31 downto 0);            -- signal Movn Mux to Jal data mux
 
+
+  --FW
+
+  signal s_FW_R1ctl                : std_logic;                                -- signal Forwarding R1 control
+  signal s_FW_R2ctl                : std_logic;                                -- signal Forwarding R2 control
+  signal s_FW_Ctl                  : std_logic;                                -- signal Forwarding control
   
-  
+  signal s_FW_R1                   : std_logic_vector(31 downto 0);            -- signal Forward data to R1
+  signal s_FW_R2                   : std_logic_vector(31 downto 0);            -- signal Forward data to R2
+
+  signal s_FW_R1_MUX               : std_logic_vector(31 downto 0);            -- signal R1 out to Mux
+  signal s_FW_R2_MUX               : std_logic_vector(31 downto 0);            -- signal R2 out to Mux
 
 
 begin
@@ -499,12 +544,44 @@ begin
              i_Reg1           => s_ID_Inst(25 downto 21),
              i_Reg2           => s_ID_Inst(20 downto 16),
              i_PCupdate       => s_ID_Change,
+             i_Forward        => s_FW_Ctl,
+
+             i_Halt           => s_ID_Halt,
 
              o_PCstall        => s_IF_PCEN,
              o_IDstall        => s_IF_Stall,
              o_IDflush        => s_IF_Flush,
              o_EXstall        => s_ID_Stall,
-             o_EXflush        => s_ID_Flush);  
+             o_EXflush        => s_ID_Flush);
+             
+  X_FORWARD: forward      
+    port map(i_RegWrEX        => s_EX_RegWr,
+             i_RegDestEX      => s_EX_RegDst,
+             i_RegWrMEM       => s_MEM_RegWr,
+             i_RegDestMEM     => s_MEM_RegDst,
+             i_Reg1           => s_ID_Inst(25 downto 21),
+             i_Reg2           => s_ID_Inst(20 downto 16),
+
+             i_EX_RegMEM       => s_EX_MemReg,
+             i_MEM_RegMEM      => s_MEM_MemReg,
+
+             i_EX_JAL          => s_EX_Jal,
+             i_MEM_JAL         => s_MEM_Jal,
+
+             i_EX_AluOut       => s_EX_ALUout,
+             i_MEM_AluOut      => s_DMemAddr,
+             i_DmemOut         => s_DMemOut,
+
+             i_EX_PC4          => s_EX_PC4,
+             i_MEM_PC4         => s_MEM_PC4,
+
+             o_R1             => s_FW_R1,
+             o_R2             => s_FW_R2,
+
+             o_R1ctl          => s_FW_R1ctl,
+             o_R2ctl          => s_FW_R2ctl,
+
+             o_Forward        => s_FW_Ctl);  
 
   X_PC: pc      
     port map(i_CLK            => iCLK,
@@ -534,8 +611,8 @@ begin
              i_WE             => s_RegWr,
              i_RST            => iRST,
              i_D              => s_RegWrData,
-             o_Q1             => s_ID_R1out,
-             o_Q2             => s_ID_R2out);
+             o_Q1             => s_FW_R1_MUX,
+             o_Q2             => s_FW_R2_MUX);
 
   X_MUX_RegDest_RI: mux2t1_N
     generic map(5)      
@@ -592,6 +669,20 @@ begin
     port map(i_In1            => s_ID_R1out,
              i_In2            => s_ID_R2out,
              o_Equal          => s_ID_Equal);  
+
+  X_MUX_R1_OUT: mux2t1_N
+    generic map(32)      
+    port map(i_S              => s_FW_R1ctl,
+             i_D0             => s_FW_R1_MUX,
+             i_D1             => s_FW_R1,
+             o_O              => s_ID_R1out); 
+
+  X_MUX_R2_OUT: mux2t1_N
+    generic map(32)      
+    port map(i_S              => s_FW_R2ctl,
+             i_D0             => s_FW_R2_MUX,
+             i_D1             => s_FW_R2,
+             o_O              => s_ID_R2out); 
 
   R_ID_EX: ID_EX
     port map(i_CLK            => iCLK,
