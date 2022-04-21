@@ -18,10 +18,11 @@ next:
 addiu $t0, $t0, 90
 andi $t0, $t0, 90
 lui $t0, 0x1001
+sw $t0, 0($t0)
 lw $t1, 0($t0)
 xori $t2, $t1, 111111
 ori $t2, $t2, 10000
-slti $t3, $t2, $t1
+slti $t3, $t2, 123
 sw $t3, 0($t0)
 beq $t1, $t1, again
 

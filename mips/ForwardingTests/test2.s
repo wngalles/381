@@ -27,3 +27,6 @@ addi $s1, $zero, 4 # i
 addi $a0, $s0, 0
 addi $a1, $s1, 0
 j exit
+
+exit:
+halt

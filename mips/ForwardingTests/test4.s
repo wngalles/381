@@ -11,6 +11,7 @@
 main:
 
 addi $t0, $0, 2
+addi $t0, $0, 2
 
 exit:
 halt
